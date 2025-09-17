@@ -27,9 +27,23 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftps
           port: 21
-          server-dir: ./          
-          local-dir: ./           # envia o conteúdo do repo
+
+          # se sua conta FTP já abre em public_html, deixe "./"
+          server-dir: ./
+          local-dir: ./
+
           exclude: |
-            **/.git*
+            **/.git/**
+            **/.git
             .github/**
+            .github
+            .gitignore
+            .gitattributes
             README.md
+            **/.DS_Store
+            diag.php
+            install-direct.php
+            hash.php
+
+          # opcional: limpa o que não está no repo (cuidado!)
+          # dangerous-clean-slate: true

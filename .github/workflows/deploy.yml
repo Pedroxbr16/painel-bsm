@@ -27,5 +27,9 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftps
           port: 21
-          server-dir: public_html/
-          local-dir: ./
+          server-dir: ./          
+          local-dir: ./           # envia o conteúdo do repo
+          exclude: |
+            **/.git*
+            .github/**
+            README.md

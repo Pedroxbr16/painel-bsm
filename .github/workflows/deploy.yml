@@ -7,7 +7,8 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: Configure FTP_HOST   
+    environment: FTP_HOST  
+
     steps:
       - uses: actions/checkout@v4
 

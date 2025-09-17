@@ -32,18 +32,4 @@ jobs:
           server-dir: ./
           local-dir: ./
 
-          exclude: |
-            **/.git/**
-            **/.git
-            .github/**
-            .github
-            .gitignore
-            .gitattributes
-            README.md
-            **/.DS_Store
-            diag.php
-            install-direct.php
-            hash.php
-
-          # opcional: limpa o que não está no repo (cuidado!)
-          # dangerous-clean-slate: true
+        

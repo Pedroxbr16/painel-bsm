@@ -3,18 +3,19 @@ name: Deploy to Hostinger
 on:
   push:
     branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: FTP_HOST  
+    environment: FTP_HOST
 
     steps:
       - uses: actions/checkout@v4
 
       - name: Preflight secrets
         run: |
-          [ -n "${{ secrets.FTP_SERVER }}" ] || (echo "FTP_SERVER faltando" && exit 1)
+          [ -n "${{ secrets.FTP_SERVER }}" ]   || (echo "FTP_SERVER faltando" && exit 1)
           [ -n "${{ secrets.FTP_USERNAME }}" ] || (echo "FTP_USERNAME faltando" && exit 1)
           [ -n "${{ secrets.FTP_PASSWORD }}" ] || (echo "FTP_PASSWORD faltando" && exit 1)
 

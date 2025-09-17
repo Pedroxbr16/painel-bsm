@@ -12,10 +12,12 @@ jobs:
 
       # Se usar Composer no servidor compartilhado, rode no CI:
       - name: Install PHP deps (Composer)
+        if: ${{ hashFiles('composer.json') != '' }}
         run: |
           php -v
           curl -sS https://getcomposer.org/installer | php
           php composer.phar install --no-dev --prefer-dist --optimize-autoloader
+
 
       # Faça build do front se necessário (npm/vite/etc)
       # - name: Build frontend
@@ -30,3 +32,4 @@ jobs:
           protocol: ftps
           local-dir: ./        # pasta local a enviar (ajuste se quiser só /public)
           server-dir: public_html/  # destino na Hostinger
+

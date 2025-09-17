@@ -2,34 +2,28 @@ name: Deploy to Hostinger
 
 on:
   push:
-    branches: [ "main" ]  # ajuste se usar outra branch
+    branches: [ "main" ]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: Configure FTP_HOST   
     steps:
       - uses: actions/checkout@v4
 
-      # Se usar Composer no servidor compartilhado, rode no CI:
-      - name: Install PHP deps (Composer)
-        if: ${{ hashFiles('composer.json') != '' }}
+      - name: Preflight secrets
         run: |
-          php -v
-          curl -sS https://getcomposer.org/installer | php
-          php composer.phar install --no-dev --prefer-dist --optimize-autoloader
-
-
-      # Faça build do front se necessário (npm/vite/etc)
-      # - name: Build frontend
-      #   run: npm ci && npm run build
+          [ -n "${{ secrets.FTP_SERVER }}" ] || (echo "FTP_SERVER faltando" && exit 1)
+          [ -n "${{ secrets.FTP_USERNAME }}" ] || (echo "FTP_USERNAME faltando" && exit 1)
+          [ -n "${{ secrets.FTP_PASSWORD }}" ] || (echo "FTP_PASSWORD faltando" && exit 1)
 
       - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
-          server: ${{ secrets.FTP_SERVER }}
+          server:   ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftps
-          local-dir: ./        # pasta local a enviar (ajuste se quiser só /public)
-          server-dir: public_html/  # destino na Hostinger
-
+          port: 21
+          server-dir: public_html/
+          local-dir: ./
